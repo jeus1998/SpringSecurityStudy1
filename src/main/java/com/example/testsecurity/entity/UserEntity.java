@@ -1,6 +1,5 @@
 package com.example.testsecurity.entity;
 
-import com.example.testsecurity.dto.JoinDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

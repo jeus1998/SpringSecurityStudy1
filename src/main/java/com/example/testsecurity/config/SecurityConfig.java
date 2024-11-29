@@ -23,8 +23,6 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/loginPage")
                         .loginProcessingUrl("/loginProc")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
                         .permitAll()
                 );
 
