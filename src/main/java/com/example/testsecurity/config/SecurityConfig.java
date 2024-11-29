@@ -6,13 +6,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
-                .csrf((csrf) -> csrf.disable())
+                // 배포 환경에서는 enabled 해야함 default enabled
+                // .csrf((csrf) -> csrf.disable())
 
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/join", "/joinProc").permitAll()
@@ -24,6 +27,10 @@ public class SecurityConfig {
                         .loginPage("/loginPage")
                         .loginProcessingUrl("/loginProc")
                         .permitAll())
+
+                .logout((auth) -> auth
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/"))
 
                 .sessionManagement(session -> session
                         .maximumSessions(1)
@@ -39,5 +46,9 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public SecurityContextLogoutHandler securityContextLogoutHandler(){
+        return new SecurityContextLogoutHandler();
     }
 }
