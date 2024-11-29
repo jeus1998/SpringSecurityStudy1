@@ -11,11 +11,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
+                .csrf((csrf) -> csrf.disable())
+
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+
+                .formLogin((form) -> form
+                        .loginPage("/loginPage")
+                        .loginProcessingUrl("/loginProc")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .permitAll()
+                );
 
         return http.build();
     }
