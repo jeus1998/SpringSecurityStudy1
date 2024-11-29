@@ -24,7 +24,7 @@ public class JoinService {
         UserEntity entity = new UserEntity();
         entity.setUsername(joinDTO.getUsername());
         entity.setPassword(passwordEncoder.encode(joinDTO.getPassword()));
-        entity.setRole("ROLE_USER");
+        entity.setRole("ROLE_ADMIN");
         userRepository.save(entity);
     }
 }
