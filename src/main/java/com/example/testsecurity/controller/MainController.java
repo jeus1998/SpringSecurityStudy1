@@ -24,10 +24,24 @@ public class MainController {
         for (GrantedAuthority authority : authorities){
             authorityList.add(authority.getAuthority());
         }
-
         model.addAttribute("id", userId);
         model.addAttribute("role", authorityList);
 
         return "main";
+    }
+    @GetMapping("/my")
+    public String myPage(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        List<String> authorityList = new ArrayList<>();
+        for (GrantedAuthority authority : authorities){
+            authorityList.add(authority.getAuthority());
+        }
+        model.addAttribute("id", userId);
+        model.addAttribute("role", authorityList);
+
+        return "mypage";
     }
 }
