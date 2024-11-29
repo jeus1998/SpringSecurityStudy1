@@ -23,8 +23,16 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/loginPage")
                         .loginProcessingUrl("/loginProc")
-                        .permitAll()
-                );
+                        .permitAll())
+
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        // true: 초과시 새로운 로그인 차단 false: 초과시 기존 세션 하나 삭제
+                        .maxSessionsPreventsLogin(true))
+
+                // default: changeSessionId 세션 공격 보호
+                .sessionManagement(session -> session
+                        .sessionFixation().changeSessionId());
 
         return http.build();
     }
